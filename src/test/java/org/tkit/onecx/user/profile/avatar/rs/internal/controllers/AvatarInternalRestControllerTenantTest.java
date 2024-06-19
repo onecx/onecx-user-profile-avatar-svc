@@ -27,9 +27,6 @@ class AvatarInternalRestControllerTenantTest extends AbstractTest {
 
     private static final String MEDIA_TYPE_IMAGE_JPG = "image/jpg";
 
-    private static final File PORTRAIT = new File(
-            Objects.requireNonNull(AvatarInternalRestControllerTenantTest.class.getResource("/data/avatar_portrait.jpg"))
-                    .getFile());
     private static final File SMALL = new File(
             Objects.requireNonNull(AvatarInternalRestControllerTenantTest.class.getResource("/data/avatar_small.jpg"))
                     .getFile());
@@ -163,7 +160,6 @@ class AvatarInternalRestControllerTenantTest extends AbstractTest {
     @Test
     void updateMyImage() {
 
-        var userId = "user1";
         var refType = RefTypeDTO.MEDIUM;
 
         given()
