@@ -17,10 +17,6 @@
         <!-- 1000kit -->
         <dependency>
             <groupId>org.tkit.quarkus.lib</groupId>
-            <artifactId>tkit-quarkus-data-import</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.tkit.quarkus.lib</groupId>
             <artifactId>tkit-quarkus-jpa</artifactId>
         </dependency>
         <dependency>
@@ -55,10 +51,6 @@
         </dependency>
 
         <!-- QUARKUS -->
-        <dependency>
-            <groupId>io.quarkus</groupId>
-            <artifactId>quarkus-oidc</artifactId>
-        </dependency>
         <dependency>
             <groupId>io.quarkus</groupId>
             <artifactId>quarkus-arc</artifactId>
