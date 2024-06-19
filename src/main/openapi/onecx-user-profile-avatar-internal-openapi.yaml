@@ -1,0 +1,10 @@
+---
+openapi: 3.0.3
+info:
+ title: user-profile-avatar internal service
+ version: 1.0.0
+servers:
+ - url: "http://onecx-user-profile-avatar:8080"
+tags:
+ - name: avatarInternal
+paths:
