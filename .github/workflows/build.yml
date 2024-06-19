@@ -13,4 +13,4 @@ jobs:
     secrets: inherit
     with:
       native: true    
-      helmEventTargetRepository: onecx/onecx-user-profile-avatar
+      helmEventTargetRepository: onecx/onecx-user-profile
