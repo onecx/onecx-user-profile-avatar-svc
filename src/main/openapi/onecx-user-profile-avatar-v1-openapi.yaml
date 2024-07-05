@@ -10,6 +10,8 @@ tags:
 paths:
  /v1/avatar/{userId}:
   get:
+   security:
+    - oauth2: [ ocx-up-avatar:read ]
    tags:
     - avatarExternal
    description: Get Image by id
@@ -37,6 +39,8 @@ paths:
         format: binary
  /v1/avatar/me:
   get:
+   security:
+    - oauth2: [ ocx-up-avatar:read ]
    tags:
     - avatarExternal
    description: Get Image by id
@@ -58,6 +62,14 @@ paths:
         type: string
         format: binary
 components:
+ securitySchemes:
+  oauth2:
+   type: oauth2
+   flows:
+    clientCredentials:
+     tokenUrl: https://oauth.simple.api/token
+     scopes:
+      ocx-up-avatar:read: Grants read access
  schemas:
   RefType:
    type: string
