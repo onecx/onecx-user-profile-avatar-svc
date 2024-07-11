@@ -1,1 +1,3 @@
 * xref:onecx-user-profile-avatar-svc:index.adoc[User Profile Avatar Backend Service]
+** External API(s)
+*** xref:onecx-user-profile-avatar-svc:openapi/onecx-user-profile-avatar-v1-openapi.adoc[User Profile Avatar Management V1]
