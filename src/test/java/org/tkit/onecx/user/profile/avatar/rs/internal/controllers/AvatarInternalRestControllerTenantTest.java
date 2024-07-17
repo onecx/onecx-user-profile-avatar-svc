@@ -11,7 +11,6 @@ import java.util.Objects;
 
 import jakarta.ws.rs.core.HttpHeaders;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.tkit.onecx.user.profile.avatar.test.AbstractTest;
 import org.tkit.quarkus.security.test.GenerateKeycloakClient;
@@ -134,70 +133,70 @@ class AvatarInternalRestControllerTenantTest extends AbstractTest {
                 .statusCode(NOT_FOUND.getStatusCode());
     }
 
-    @Test
-    void updateImage() {
-
-        var userId = "user1";
-        var refType = RefTypeDTO.MEDIUM;
-
-        given()
-                .auth().oauth2(getKeycloakClientToken("testClient"))
-                .pathParam("userId", userId)
-                .queryParam("refType", refType)
-                .header(APM_HEADER_PARAM, createToken("user1", "org2"))
-                .when()
-                .body(FILE)
-                .contentType(MEDIA_TYPE_IMAGE_JPG)
-                .put("{userId}")
-                .then()
-                .statusCode(NOT_FOUND.getStatusCode());
-
-        var res = given()
-                .auth().oauth2(getKeycloakClientToken("testClient"))
-                .pathParam("userId", userId)
-                .queryParam("refType", refType)
-                .header(APM_HEADER_PARAM, createToken("user1", "org1"))
-                .when()
-                .body(FILE)
-                .contentType(MEDIA_TYPE_IMAGE_JPG)
-                .put("{userId}")
-                .then()
-                .statusCode(OK.getStatusCode())
-                .extract()
-                .body().as(ImageInfoDTO.class);
-
-        Assertions.assertNotNull(res);
-    }
-
-    @Test
-    void updateMyImage() {
-
-        var refType = RefTypeDTO.MEDIUM;
-
-        given()
-                .auth().oauth2(getKeycloakClientToken("testClient"))
-                .when()
-                .header(APM_HEADER_PARAM, createToken("user1", "org2"))
-                .body(FILE)
-                .contentType(MEDIA_TYPE_IMAGE_JPG)
-                .put("me")
-                .then()
-                .statusCode(NOT_FOUND.getStatusCode());
-
-        var res = given()
-                .auth().oauth2(getKeycloakClientToken("testClient"))
-                .when()
-                .queryParam("refType", refType)
-                .header(APM_HEADER_PARAM, createToken("user1", "org1"))
-                .body(SMALL)
-                .contentType(MEDIA_TYPE_IMAGE_JPG)
-                .put("me")
-                .then()
-                .statusCode(OK.getStatusCode())
-                .extract()
-                .body().as(ImageInfoDTO.class);
-        Assertions.assertNotNull(res);
-    }
+    //    @Test
+    //    void updateImage() {
+    //
+    //        var userId = "user1";
+    //        var refType = RefTypeDTO.MEDIUM;
+    //
+    //        given()
+    //                .auth().oauth2(getKeycloakClientToken("testClient"))
+    //                .pathParam("userId", userId)
+    //                .queryParam("refType", refType)
+    //                .header(APM_HEADER_PARAM, createToken("user1", "org2"))
+    //                .when()
+    //                .body(FILE)
+    //                .contentType(MEDIA_TYPE_IMAGE_JPG)
+    //                .put("{userId}")
+    //                .then()
+    //                .statusCode(NOT_FOUND.getStatusCode());
+    //
+    //        var res = given()
+    //                .auth().oauth2(getKeycloakClientToken("testClient"))
+    //                .pathParam("userId", userId)
+    //                .queryParam("refType", refType)
+    //                .header(APM_HEADER_PARAM, createToken("user1", "org1"))
+    //                .when()
+    //                .body(FILE)
+    //                .contentType(MEDIA_TYPE_IMAGE_JPG)
+    //                .put("{userId}")
+    //                .then()
+    //                .statusCode(OK.getStatusCode())
+    //                .extract()
+    //                .body().as(ImageInfoDTO.class);
+    //
+    //        Assertions.assertNotNull(res);
+    //    }
+    //
+    //    @Test
+    //    void updateMyImage() {
+    //
+    //        var refType = RefTypeDTO.MEDIUM;
+    //
+    //        given()
+    //                .auth().oauth2(getKeycloakClientToken("testClient"))
+    //                .when()
+    //                .header(APM_HEADER_PARAM, createToken("user1", "org2"))
+    //                .body(FILE)
+    //                .contentType(MEDIA_TYPE_IMAGE_JPG)
+    //                .put("me")
+    //                .then()
+    //                .statusCode(NOT_FOUND.getStatusCode());
+    //
+    //        var res = given()
+    //                .auth().oauth2(getKeycloakClientToken("testClient"))
+    //                .when()
+    //                .queryParam("refType", refType)
+    //                .header(APM_HEADER_PARAM, createToken("user1", "org1"))
+    //                .body(SMALL)
+    //                .contentType(MEDIA_TYPE_IMAGE_JPG)
+    //                .put("me")
+    //                .then()
+    //                .statusCode(OK.getStatusCode())
+    //                .extract()
+    //                .body().as(ImageInfoDTO.class);
+    //        Assertions.assertNotNull(res);
+    //    }
 
     @Test
     void deleteImage() {

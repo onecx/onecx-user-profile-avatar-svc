@@ -74,46 +74,59 @@ public class AvatarInternalRestController implements AvatarInternalApi {
         return getImage(userId, refType);
     }
 
-    @Override
-    public Response updateImage(String userId, RefTypeDTO refType, byte[] body, Integer contentLength) {
-        Avatar avatar = avatarDAO.findByUserIdAndRefType(userId, refType.toString());
-        if (avatar == null) {
-            return Response.status(Response.Status.NOT_FOUND).build();
-        }
-
-        var contentType = httpHeaders.getMediaType();
-        contentType = new MediaType(contentType.getType(), contentType.getSubtype());
-
-        avatar.setLength(contentLength);
-        avatar.setMimeType(contentType.toString());
-        avatar.setImageData(body);
-
-        avatar = avatarDAO.update(avatar);
-
-        return Response.ok(avatarMapper.map(avatar)).build();
-    }
-
-    @Override
-    public Response updateMyImage(RefTypeDTO refType, byte[] body, Integer contentLength) {
-        var userId = ApplicationContext.get().getPrincipal();
-
-        return updateImage(userId, refType, body, contentLength);
-    }
+    //    @Override
+    //    public Response updateImage(String userId, RefTypeDTO refType, byte[] body, Integer contentLength) {
+    //        Avatar avatar = avatarDAO.findByUserIdAndRefType(userId, refType.toString());
+    //        if (avatar == null) {
+    //            return Response.status(Response.Status.NOT_FOUND).build();
+    //        }
+    //
+    //        var contentType = httpHeaders.getMediaType();
+    //        contentType = new MediaType(contentType.getType(), contentType.getSubtype());
+    //
+    //        avatar.setLength(contentLength);
+    //        avatar.setMimeType(contentType.toString());
+    //        avatar.setImageData(body);
+    //
+    //        avatar = avatarDAO.update(avatar);
+    //
+    //        return Response.ok(avatarMapper.map(avatar)).build();
+    //    }
+    //
+    //    @Override
+    //    public Response updateMyImage(RefTypeDTO refType, byte[] body, Integer contentLength) {
+    //        var userId = ApplicationContext.get().getPrincipal();
+    //
+    //        return updateImage(userId, refType, body, contentLength);
+    //    }
 
     @Override
     public Response uploadImage(Integer contentLength, String userId, RefTypeDTO refType, byte[] body) {
+
         var contentType = httpHeaders.getMediaType();
         contentType = new MediaType(contentType.getType(), contentType.getSubtype());
-        var avatar = avatarMapper.create(userId, refType.toString(), contentType.toString(), contentLength);
-        avatar.setLength(contentLength);
-        avatar.setImageData(body);
-        avatar = avatarDAO.create(avatar);
+        Avatar avatar = avatarDAO.findByUserIdAndRefType(userId, refType.toString());
 
-        var avatarInfoDTO = avatarMapper.map(avatar);
+        if (avatar == null) {
+            avatar = avatarMapper.create(userId, refType.toString(), contentType.toString(), contentLength);
+            avatar.setLength(contentLength);
+            avatar.setImageData(body);
+            avatar = avatarDAO.create(avatar);
+            var avatarInfoDTO = avatarMapper.map(avatar);
+            return Response.created(uriInfo.getAbsolutePathBuilder().path(avatarInfoDTO.getId()).build())
+                    .entity(avatarInfoDTO)
+                    .build();
+        } else {
+            avatar.setLength(contentLength);
+            avatar.setMimeType(contentType.toString());
+            avatar.setImageData(body);
+            avatar = avatarDAO.update(avatar);
+            var avatarInfoDTO = avatarMapper.map(avatar);
 
-        return Response.created(uriInfo.getAbsolutePathBuilder().path(avatarInfoDTO.getId()).build())
-                .entity(avatarInfoDTO)
-                .build();
+            return Response.created(uriInfo.getAbsolutePathBuilder().path(avatarInfoDTO.getId()).build())
+                    .entity(avatarInfoDTO)
+                    .build();
+        }
     }
 
     @Override

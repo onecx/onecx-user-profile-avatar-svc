@@ -13,7 +13,6 @@ import java.util.Random;
 
 import jakarta.ws.rs.core.HttpHeaders;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.tkit.onecx.user.profile.avatar.test.AbstractTest;
 import org.tkit.quarkus.security.test.GenerateKeycloakClient;
@@ -134,7 +133,7 @@ class AvatarInternalRestControllerTest extends AbstractTest {
     }
 
     @Test
-    void uploadImage_shouldReturnBadRequest_whenImageIs() {
+    void uploadImage_shouldUpdate_whenAvatarImageEmpty() {
 
         var userId = "productNameUpload";
         var refType = RefTypeDTO.MEDIUM;
@@ -150,7 +149,7 @@ class AvatarInternalRestControllerTest extends AbstractTest {
                 .then()
                 .statusCode(CREATED.getStatusCode());
 
-        var exception = given()
+        var dto = given()
                 .auth().oauth2(getKeycloakClientToken("testClient"))
                 .pathParam("userId", userId)
                 .queryParam("refType", refType)
@@ -159,12 +158,10 @@ class AvatarInternalRestControllerTest extends AbstractTest {
                 .contentType(MEDIA_TYPE_IMAGE_JPG)
                 .post("{userId}")
                 .then()
-                .statusCode(BAD_REQUEST.getStatusCode())
-                .extract().as(ProblemDetailResponseDTO.class);
+                .statusCode(CREATED.getStatusCode())
+                .extract().as(ImageInfoDTO.class);
 
-        assertThat(exception.getErrorCode()).isEqualTo("PERSIST_ENTITY_FAILED");
-        assertThat(exception.getDetail()).isEqualTo(
-                "could not execute statement [ERROR: duplicate key value violates unique constraint 'avatar_constraints'  Detail: Key (user_id, ref_type, tenant_id)=(productNameUpload, medium, tenant-100) already exists.]");
+        assertThat(dto).isNotNull();
     }
 
     @Test
@@ -279,120 +276,120 @@ class AvatarInternalRestControllerTest extends AbstractTest {
                 .statusCode(NOT_FOUND.getStatusCode());
     }
 
-    @Test
-    void updateImage() {
+    //    @Test
+    //    void updateImage() {
+    //
+    //        var userId = "user1";
+    //        var refType = RefTypeDTO.MEDIUM;
+    //
+    //        var res = given()
+    //                .auth().oauth2(getKeycloakClientToken("testClient"))
+    //                .pathParam("userId", userId)
+    //                .queryParam("refType", refType)
+    //                .when()
+    //                .body(FILE)
+    //                .contentType(MEDIA_TYPE_IMAGE_JPG)
+    //                .put("{userId}")
+    //                .then()
+    //                .statusCode(OK.getStatusCode())
+    //                .extract()
+    //                .body().as(ImageInfoDTO.class);
+    //
+    //        Assertions.assertNotNull(res);
+    //
+    //        res = given()
+    //                .auth().oauth2(getKeycloakClientToken("testClient"))
+    //                .pathParam("userId", userId)
+    //                .queryParam("refType", RefTypeDTO.MEDIUM)
+    //                .when()
+    //                .body(SMALL)
+    //                .contentType(MEDIA_TYPE_IMAGE_JPG)
+    //                .put("{userId}")
+    //                .then()
+    //                .statusCode(OK.getStatusCode())
+    //                .extract()
+    //                .body().as(ImageInfoDTO.class);
+    //
+    //        Assertions.assertNotNull(res);
+    //
+    //        given()
+    //                .auth().oauth2(getKeycloakClientToken("testClient"))
+    //                .pathParam("userId", "does-not-exists")
+    //                .queryParam("refType", refType)
+    //                .when()
+    //                .body(FILE)
+    //                .contentType(MEDIA_TYPE_IMAGE_JPG)
+    //                .put("{userId}")
+    //                .then()
+    //                .statusCode(NOT_FOUND.getStatusCode());
+    //    }
+    //
+    //    @Test
+    //    void updateMyImage() {
+    //
+    //        var refType = RefTypeDTO.MEDIUM;
+    //
+    //        var res = given()
+    //                .auth().oauth2(getKeycloakClientToken("testClient"))
+    //                .when()
+    //                .queryParam("refType", refType)
+    //                .header(APM_HEADER_PARAM, createToken("user1", "org1"))
+    //                .body(FILE)
+    //                .contentType(MEDIA_TYPE_IMAGE_JPG)
+    //                .put("me")
+    //                .then()
+    //                .statusCode(OK.getStatusCode())
+    //                .extract()
+    //                .body().as(ImageInfoDTO.class);
+    //        Assertions.assertNotNull(res);
+    //
+    //        given()
+    //                .auth().oauth2(getKeycloakClientToken("testClient"))
+    //                .queryParam("refType", RefTypeDTO.SMALL)
+    //                .when()
+    //                .header(APM_HEADER_PARAM, createToken("user1", "org1"))
+    //                .body(SMALL)
+    //                .contentType(MEDIA_TYPE_IMAGE_JPG)
+    //                .put("me")
+    //                .then()
+    //                .statusCode(OK.getStatusCode())
+    //                .extract()
+    //                .body().as(ImageInfoDTO.class);
+    //        Assertions.assertNotNull(res);
+    //    }
 
-        var userId = "user1";
-        var refType = RefTypeDTO.MEDIUM;
-
-        var res = given()
-                .auth().oauth2(getKeycloakClientToken("testClient"))
-                .pathParam("userId", userId)
-                .queryParam("refType", refType)
-                .when()
-                .body(FILE)
-                .contentType(MEDIA_TYPE_IMAGE_JPG)
-                .put("{userId}")
-                .then()
-                .statusCode(OK.getStatusCode())
-                .extract()
-                .body().as(ImageInfoDTO.class);
-
-        Assertions.assertNotNull(res);
-
-        res = given()
-                .auth().oauth2(getKeycloakClientToken("testClient"))
-                .pathParam("userId", userId)
-                .queryParam("refType", RefTypeDTO.MEDIUM)
-                .when()
-                .body(SMALL)
-                .contentType(MEDIA_TYPE_IMAGE_JPG)
-                .put("{userId}")
-                .then()
-                .statusCode(OK.getStatusCode())
-                .extract()
-                .body().as(ImageInfoDTO.class);
-
-        Assertions.assertNotNull(res);
-
-        given()
-                .auth().oauth2(getKeycloakClientToken("testClient"))
-                .pathParam("userId", "does-not-exists")
-                .queryParam("refType", refType)
-                .when()
-                .body(FILE)
-                .contentType(MEDIA_TYPE_IMAGE_JPG)
-                .put("{userId}")
-                .then()
-                .statusCode(NOT_FOUND.getStatusCode());
-    }
-
-    @Test
-    void updateMyImage() {
-
-        var refType = RefTypeDTO.MEDIUM;
-
-        var res = given()
-                .auth().oauth2(getKeycloakClientToken("testClient"))
-                .when()
-                .queryParam("refType", refType)
-                .header(APM_HEADER_PARAM, createToken("user1", "org1"))
-                .body(FILE)
-                .contentType(MEDIA_TYPE_IMAGE_JPG)
-                .put("me")
-                .then()
-                .statusCode(OK.getStatusCode())
-                .extract()
-                .body().as(ImageInfoDTO.class);
-        Assertions.assertNotNull(res);
-
-        given()
-                .auth().oauth2(getKeycloakClientToken("testClient"))
-                .queryParam("refType", RefTypeDTO.SMALL)
-                .when()
-                .header(APM_HEADER_PARAM, createToken("user1", "org1"))
-                .body(SMALL)
-                .contentType(MEDIA_TYPE_IMAGE_JPG)
-                .put("me")
-                .then()
-                .statusCode(OK.getStatusCode())
-                .extract()
-                .body().as(ImageInfoDTO.class);
-        Assertions.assertNotNull(res);
-    }
-
-    @Test
-    void updateImage_returnNotFound_whenEntryNotExists() {
-
-        var userId = "productNameUpdateFailed";
-        var refType = RefTypeDTO.MEDIUM;
-
-        given()
-                .auth().oauth2(getKeycloakClientToken("testClient"))
-                .pathParam("userId", userId)
-                .queryParam("refType", refType)
-                .when()
-                .body(FILE)
-                .contentType(MEDIA_TYPE_IMAGE_JPG)
-                .post("{userId}")
-                .then()
-                .statusCode(CREATED.getStatusCode())
-                .extract()
-                .body().as(ImageInfoDTO.class);
-
-        var exception = given()
-                .auth().oauth2(getKeycloakClientToken("testClient"))
-                .pathParam("userId", "wrongRefId")
-                .queryParam("refType", "wrongRefType")
-                .when()
-                .body(FILE)
-                .contentType(MEDIA_TYPE_IMAGE_JPG)
-                .put("{userId}")
-                .then()
-                .statusCode(NOT_FOUND.getStatusCode());
-
-        Assertions.assertNotNull(exception);
-    }
+    //    @Test
+    //    void updateImage_returnNotFound_whenEntryNotExists() {
+    //
+    //        var userId = "productNameUpdateFailed";
+    //        var refType = RefTypeDTO.MEDIUM;
+    //
+    //        given()
+    //                .auth().oauth2(getKeycloakClientToken("testClient"))
+    //                .pathParam("userId", userId)
+    //                .queryParam("refType", refType)
+    //                .when()
+    //                .body(FILE)
+    //                .contentType(MEDIA_TYPE_IMAGE_JPG)
+    //                .post("{userId}")
+    //                .then()
+    //                .statusCode(CREATED.getStatusCode())
+    //                .extract()
+    //                .body().as(ImageInfoDTO.class);
+    //
+    //        var exception = given()
+    //                .auth().oauth2(getKeycloakClientToken("testClient"))
+    //                .pathParam("userId", "wrongRefId")
+    //                .queryParam("refType", "wrongRefType")
+    //                .when()
+    //                .body(FILE)
+    //                .contentType(MEDIA_TYPE_IMAGE_JPG)
+    //                .put("{userId}")
+    //                .then()
+    //                .statusCode(NOT_FOUND.getStatusCode());
+    //
+    //        Assertions.assertNotNull(exception);
+    //    }
 
     @Test
     void testMaxUploadSize() {
