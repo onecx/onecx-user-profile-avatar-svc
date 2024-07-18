@@ -80,15 +80,17 @@ public class AvatarInternalRestController implements AvatarInternalApi {
         var contentType = httpHeaders.getMediaType();
         contentType = new MediaType(contentType.getType(), contentType.getSubtype());
         Avatar avatar = avatarDAO.findByUserIdAndRefType(userId, refType.toString());
+
         if (avatar == null) {
             avatar = avatarMapper.create(userId, refType.toString(), contentType.toString(), contentLength);
+            avatar.setImageData(body);
             avatar = avatarDAO.create(avatar);
         } else {
+            avatar.setLength(contentLength);
+            avatar.setMimeType(contentType.toString());
+            avatar.setImageData(body);
             avatar = avatarDAO.update(avatar);
         }
-        avatar.setLength(contentLength);
-        avatar.setMimeType(contentType.toString());
-        avatar.setImageData(body);
         var avatarInfoDTO = avatarMapper.map(avatar);
         return Response.created(uriInfo.getAbsolutePathBuilder().path(avatarInfoDTO.getId()).build())
                 .entity(avatarInfoDTO)
