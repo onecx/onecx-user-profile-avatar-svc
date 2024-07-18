@@ -13,6 +13,7 @@ import java.util.Random;
 
 import jakarta.ws.rs.core.HttpHeaders;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.tkit.onecx.user.profile.avatar.test.AbstractTest;
 import org.tkit.quarkus.security.test.GenerateKeycloakClient;
@@ -276,7 +277,6 @@ class AvatarInternalRestControllerTest extends AbstractTest {
                 .statusCode(NOT_FOUND.getStatusCode());
     }
 
-
     @Test
     void testMaxUploadSize() {
 
@@ -368,5 +368,38 @@ class AvatarInternalRestControllerTest extends AbstractTest {
                 .get("me")
                 .then()
                 .statusCode(NOT_FOUND.getStatusCode());
+    }
+
+    @Test
+    void updateImage_returnNotFound_whenEntryNotExists() {
+
+        var userId = "productNameUpdateFailed";
+        var refType = RefTypeDTO.MEDIUM;
+
+        given()
+                .auth().oauth2(getKeycloakClientToken("testClient"))
+                .pathParam("userId", userId)
+                .queryParam("refType", refType)
+                .when()
+                .body(FILE)
+                .contentType(MEDIA_TYPE_IMAGE_JPG)
+                .post("{userId}")
+                .then()
+                .statusCode(CREATED.getStatusCode())
+                .extract()
+                .body().as(ImageInfoDTO.class);
+
+        var exception = given()
+                .auth().oauth2(getKeycloakClientToken("testClient"))
+                .pathParam("userId", "wrongRefId")
+                .queryParam("refType", "wrongRefType")
+                .when()
+                .body(FILE)
+                .contentType(MEDIA_TYPE_IMAGE_JPG)
+                .post("{userId}")
+                .then()
+                .statusCode(NOT_FOUND.getStatusCode());
+
+        Assertions.assertNotNull(exception);
     }
 }
