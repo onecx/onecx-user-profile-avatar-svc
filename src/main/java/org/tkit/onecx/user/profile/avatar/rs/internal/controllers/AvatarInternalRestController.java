@@ -74,34 +74,25 @@ public class AvatarInternalRestController implements AvatarInternalApi {
         return getImage(userId, refType);
     }
 
-
     @Override
     public Response uploadImage(Integer contentLength, String userId, RefTypeDTO refType, byte[] body) {
 
         var contentType = httpHeaders.getMediaType();
         contentType = new MediaType(contentType.getType(), contentType.getSubtype());
         Avatar avatar = avatarDAO.findByUserIdAndRefType(userId, refType.toString());
-
         if (avatar == null) {
             avatar = avatarMapper.create(userId, refType.toString(), contentType.toString(), contentLength);
-            avatar.setLength(contentLength);
-            avatar.setImageData(body);
             avatar = avatarDAO.create(avatar);
-            var avatarInfoDTO = avatarMapper.map(avatar);
-            return Response.created(uriInfo.getAbsolutePathBuilder().path(avatarInfoDTO.getId()).build())
-                    .entity(avatarInfoDTO)
-                    .build();
         } else {
-            avatar.setLength(contentLength);
-            avatar.setMimeType(contentType.toString());
-            avatar.setImageData(body);
             avatar = avatarDAO.update(avatar);
-            var avatarInfoDTO = avatarMapper.map(avatar);
-
-            return Response.created(uriInfo.getAbsolutePathBuilder().path(avatarInfoDTO.getId()).build())
-                    .entity(avatarInfoDTO)
-                    .build();
         }
+        avatar.setLength(contentLength);
+        avatar.setMimeType(contentType.toString());
+        avatar.setImageData(body);
+        var avatarInfoDTO = avatarMapper.map(avatar);
+        return Response.created(uriInfo.getAbsolutePathBuilder().path(avatarInfoDTO.getId()).build())
+                .entity(avatarInfoDTO)
+                .build();
     }
 
     @Override
