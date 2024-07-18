@@ -133,7 +133,6 @@ class AvatarInternalRestControllerTenantTest extends AbstractTest {
                 .statusCode(NOT_FOUND.getStatusCode());
     }
 
-
     @Test
     void deleteImage() {
         var userId = "user1";
