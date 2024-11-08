@@ -13,7 +13,6 @@ import org.tkit.onecx.user.profile.avatar.domain.models.Avatar;
 import org.tkit.onecx.user.profile.avatar.rs.internal.mappers.AvatarMapper;
 import org.tkit.onecx.user.profile.avatar.rs.internal.mappers.ExceptionMapper;
 import org.tkit.quarkus.context.ApplicationContext;
-import org.tkit.quarkus.jpa.exceptions.ConstraintException;
 import org.tkit.quarkus.log.cdi.LogService;
 
 import gen.org.tkit.onecx.user.profile.avatar.rs.internal.AvatarInternalApi;
@@ -60,7 +59,7 @@ public class AvatarInternalRestController implements AvatarInternalApi {
     public Response getImage(String userId, RefTypeDTO refType) {
         Avatar avatar = avatarDAO.findByUserIdAndRefType(userId, refType.toString());
         if (avatar == null) {
-            return Response.status(Response.Status.NOT_FOUND).build();
+            return Response.status(Response.Status.NO_CONTENT).build();
         }
         return Response.ok(avatar.getImageData(), avatar.getMimeType())
                 .header(HttpHeaders.CONTENT_LENGTH, avatar.getLength()).build();
@@ -102,11 +101,6 @@ public class AvatarInternalRestController implements AvatarInternalApi {
         var userId = ApplicationContext.get().getPrincipal();
 
         return uploadImage(contentLength, userId, refType, body);
-    }
-
-    @ServerExceptionMapper
-    public RestResponse<ProblemDetailResponseDTO> exception(ConstraintException ex) {
-        return exceptionMapper.exception(ex);
     }
 
     @ServerExceptionMapper

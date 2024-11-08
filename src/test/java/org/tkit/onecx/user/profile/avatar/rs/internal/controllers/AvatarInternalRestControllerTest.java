@@ -111,7 +111,6 @@ class AvatarInternalRestControllerTest extends AbstractTest {
                 .statusCode(CREATED.getStatusCode())
                 .extract()
                 .body().as(ImageInfoDTO.class);
-
     }
 
     @Test
@@ -251,7 +250,7 @@ class AvatarInternalRestControllerTest extends AbstractTest {
     }
 
     @Test
-    void getImageTest_shouldReturnNotFound_whenImagesDoesNotExist() {
+    void getImageTest_shouldReturnNoContent_whenImagesDoesNotExist() {
 
         var userId = "productNameGetTest";
         var refType = RefTypeDTO.MEDIUM;
@@ -274,7 +273,7 @@ class AvatarInternalRestControllerTest extends AbstractTest {
                 .queryParam("refType", refType)
                 .get("{userId}")
                 .then()
-                .statusCode(NOT_FOUND.getStatusCode());
+                .statusCode(NO_CONTENT.getStatusCode());
     }
 
     @Test
@@ -336,7 +335,7 @@ class AvatarInternalRestControllerTest extends AbstractTest {
                 .queryParam("refType", refType)
                 .get("{userId}")
                 .then()
-                .statusCode(NOT_FOUND.getStatusCode());
+                .statusCode(NO_CONTENT.getStatusCode());
     }
 
     @Test
@@ -367,11 +366,11 @@ class AvatarInternalRestControllerTest extends AbstractTest {
                 .queryParam("refType", refType)
                 .get("me")
                 .then()
-                .statusCode(NOT_FOUND.getStatusCode());
+                .statusCode(NO_CONTENT.getStatusCode());
     }
 
     @Test
-    void updateImage_returnNotFound_whenEntryNotExists() {
+    void updateImage_returnNoContent_whenEntryNotExists() {
 
         var userId = "productNameUpdateFailed";
         var refType = RefTypeDTO.MEDIUM;

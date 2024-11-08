@@ -29,7 +29,7 @@ public class AvatarExternalV1RestController implements AvatarExternalV1Api {
     public Response getImage(String userId, RefTypeDTOV1 refType) {
         Avatar avatar = avatarDAO.findByUserIdAndRefType(userId, refType.toString());
         if (avatar == null) {
-            return Response.status(Response.Status.NOT_FOUND).build();
+            return Response.status(Response.Status.NO_CONTENT).build();
         }
         return Response.ok(avatar.getImageData(), avatar.getMimeType())
                 .header(HttpHeaders.CONTENT_LENGTH, avatar.getLength()).build();

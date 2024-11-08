@@ -12,7 +12,7 @@ public class SecurityTest extends AbstractSecurityTest {
     @Override
     public SecurityTestConfig getConfig() {
         SecurityTestConfig config = new SecurityTestConfig();
-        config.addConfig("read", "/internal/avatar/id", 404, List.of("ocx-up:read"), "get");
+        config.addConfig("read", "/internal/avatar/id", 204, List.of("ocx-up:read"), "get");
         return config;
     }
 }
