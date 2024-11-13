@@ -73,7 +73,7 @@ class AvatarExternalV1RestControllerTest extends AbstractTest {
     }
 
     @Test
-    void getImageTest_shouldReturnNotFound_whenImagesDoesNotExist() {
+    void getImageTest_shouldReturnNoContent_whenImagesDoesNotExist() {
 
         var userId = "productNameGetTest";
         var refType = RefTypeDTOV1.MEDIUM;
@@ -85,6 +85,6 @@ class AvatarExternalV1RestControllerTest extends AbstractTest {
                 .queryParam("refType", refType)
                 .get("{userId}")
                 .then()
-                .statusCode(NOT_FOUND.getStatusCode());
+                .statusCode(NO_CONTENT.getStatusCode());
     }
 }

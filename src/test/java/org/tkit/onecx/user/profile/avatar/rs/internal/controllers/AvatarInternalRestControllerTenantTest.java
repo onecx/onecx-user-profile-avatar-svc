@@ -65,7 +65,6 @@ class AvatarInternalRestControllerTenantTest extends AbstractTest {
                 .statusCode(CREATED.getStatusCode())
                 .extract()
                 .body().as(ImageInfoDTO.class);
-
     }
 
     @Test
@@ -92,7 +91,7 @@ class AvatarInternalRestControllerTenantTest extends AbstractTest {
                 .pathParam("userId", userId)
                 .get("{userId}")
                 .then()
-                .statusCode(NOT_FOUND.getStatusCode());
+                .statusCode(NO_CONTENT.getStatusCode());
 
     }
 
@@ -130,7 +129,7 @@ class AvatarInternalRestControllerTenantTest extends AbstractTest {
                 .header(APM_HEADER_PARAM, createToken("user2", "org2"))
                 .get("me")
                 .then()
-                .statusCode(NOT_FOUND.getStatusCode());
+                .statusCode(NO_CONTENT.getStatusCode());
     }
 
     @Test
