@@ -281,7 +281,7 @@ class AvatarInternalRestControllerTest extends AbstractTest {
 
         var userId = "productMaxUpload";
 
-        byte[] body = new byte[110001];
+        byte[] body = new byte[510001];
         new Random().nextBytes(body);
 
         var exception = given()
@@ -298,7 +298,7 @@ class AvatarInternalRestControllerTest extends AbstractTest {
 
         assertThat(exception.getErrorCode()).isEqualTo(CONSTRAINT_VIOLATIONS.name());
         assertThat(exception.getDetail()).isEqualTo(
-                "uploadImage.contentLength: must be less than or equal to 110000");
+                "uploadImage.contentLength: must be less than or equal to 510000");
 
     }
 
