@@ -24,6 +24,7 @@ quarkus.hibernate-orm.metrics.enabled=true
 quarkus.liquibase.migrate-at-start=true
 quarkus.liquibase.validate-on-migrate=true
 tkit.rs.context.tenant-id.enabled=true
+%prod.quarkus.oidc-client.client-id=${quarkus.application.name}
 %prod.quarkus.datasource.jdbc.url=${DB_URL:jdbc:postgresql://postgresdb:5432/onecx-user-profile-avatar?sslmode=disable}
 %prod.quarkus.datasource.username=${DB_USER:onecx-user-profile-avatar}
 %prod.quarkus.datasource.password=${DB_PWD:onecx-user-profile-avatar}
