@@ -19,9 +19,13 @@ paths:
      - in: header
        name: Content-Length
        required: true
+       x-onecx:
+        constraints:
+         size:
+          min: 1
+          max: 510000
+          key: avatar-image-size
        schema:
-        minimum: 1
-        maximum: 510000
         type: integer
      - name: userId
        in: path
@@ -39,8 +43,6 @@ paths:
      content:
       image/*:
        schema:
-        minimum: 1
-        maximum: 510000
         type: string
         format: binary
     responses:
@@ -76,8 +78,6 @@ paths:
       content:
        image/*:
         schema:
-         minimum: 1
-         maximum: 510000
          type: string
          format: binary
      "400":
@@ -119,9 +119,13 @@ paths:
      - in: header
        name: Content-Length
        required: true
+       x-onecx:
+        constraints:
+         size:
+          min: 1
+          max: 510000
+          key: avatar-image-size
        schema:
-        minimum: 1
-        maximum: 510000
         type: integer
      - name: refType
        required: true
@@ -134,8 +138,6 @@ paths:
      content:
       image/*:
        schema:
-        minimum: 1
-        maximum: 510000
         type: string
         format: binary
     responses:
@@ -166,8 +168,6 @@ paths:
       content:
        image/*:
         schema:
-         minimum: 1
-         maximum: 510000
          type: string
          format: binary
      "400":

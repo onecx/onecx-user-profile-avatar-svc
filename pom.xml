@@ -145,6 +145,10 @@
             <artifactId>tkit-quarkus-security-test</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.tkit.onecx.quarkus</groupId>
+            <artifactId>onecx-validator</artifactId>
+        </dependency>
     </dependencies>
 
     <build>
@@ -182,6 +186,7 @@
                     <addCompileSourceRoot>true</addCompileSourceRoot>
                     <library>quarkus</library>
                     <additionalProperties>onecx-scopes=true</additionalProperties>
+                    <additionalProperties>onecx-constraints=true</additionalProperties>
                     <configOptions>
                         <sourceFolder>/</sourceFolder>
                         <openApiNullable>false</openApiNullable>

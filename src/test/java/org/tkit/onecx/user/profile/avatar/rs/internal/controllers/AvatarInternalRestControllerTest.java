@@ -128,7 +128,7 @@ class AvatarInternalRestControllerTest extends AbstractTest {
                 .extract().as(ProblemDetailResponseDTO.class);
 
         assertThat(exception.getErrorCode()).isEqualTo(CONSTRAINT_VIOLATIONS.name());
-        assertThat(exception.getDetail()).isEqualTo("uploadImage.contentLength: must be greater than or equal to 1");
+        assertThat(exception.getDetail()).contains("OneCX Size constraint");
     }
 
     @Test
@@ -296,8 +296,7 @@ class AvatarInternalRestControllerTest extends AbstractTest {
                 .extract().as(ProblemDetailResponseDTO.class);
 
         assertThat(exception.getErrorCode()).isEqualTo(CONSTRAINT_VIOLATIONS.name());
-        assertThat(exception.getDetail()).isEqualTo(
-                "uploadImage.contentLength: must be less than or equal to 510000");
+        assertThat(exception.getDetail()).contains("OneCX Size constraint");
 
     }
 

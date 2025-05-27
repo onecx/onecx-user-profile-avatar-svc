@@ -147,14 +147,14 @@ h| Version
 | 3.20.1
 
 
-
-|===k]
-| 3.15.3
-
-
-| onecx-security
+| onecx-validator
 
 | 
+| 
+| 1.3.0
+
+
+|===
 | 
 | 0.34.0
 
