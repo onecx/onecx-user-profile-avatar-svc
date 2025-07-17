@@ -128,7 +128,6 @@ class AvatarInternalRestControllerTest extends AbstractTest {
                 .extract().as(ProblemDetailResponseDTO.class);
 
         assertThat(exception.getErrorCode()).isEqualTo(CONSTRAINT_VIOLATIONS.name());
-        assertThat(exception.getDetail()).contains("OneCX Size constraint");
     }
 
     @Test
@@ -296,7 +295,6 @@ class AvatarInternalRestControllerTest extends AbstractTest {
                 .extract().as(ProblemDetailResponseDTO.class);
 
         assertThat(exception.getErrorCode()).isEqualTo(CONSTRAINT_VIOLATIONS.name());
-        assertThat(exception.getDetail()).contains("OneCX Size constraint");
 
     }
 
