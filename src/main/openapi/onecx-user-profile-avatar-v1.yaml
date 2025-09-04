@@ -1,12 +1,14 @@
 ---
 openapi: 3.0.3
 info:
- title: user-profile-avatar external service
+ title: user-profile-avatar external service V1
+ description: This API provides endpoints to retrieve User Avatars
  version: 1.0.0
 servers:
  - url: "http://onecx-user-profile-avatar:8080"
 tags:
  - name: avatarExternal
+   description: Retrieving User Avatars
 paths:
  /v1/avatar/{userId}:
   get:
@@ -14,7 +16,7 @@ paths:
     - oauth2: [ ocx-up-avatar:read ]
    tags:
     - avatarExternal
-   description: Get Image by id
+   description: Get the avatar of a user by its id
    operationId: getImage
    parameters:
     - name: userId
@@ -29,7 +31,7 @@ paths:
        $ref: "#/components/schemas/RefType"
    responses:
     "200":
-     description: OK
+     description: User Avatar retrieved successfully
      content:
       image/*:
        schema:
@@ -43,7 +45,7 @@ paths:
     - oauth2: [ ocx-up-avatar:read ]
    tags:
     - avatarExternal
-   description: Get Image by id
+   description: Get the avatar of the requesting user
    operationId: getMyImage
    parameters:
     - name: refType
@@ -53,7 +55,7 @@ paths:
        $ref: "#/components/schemas/RefType"
    responses:
     "200":
-     description: OK
+     description: Avatar retrieved successfully
      content:
       image/*:
        schema:
