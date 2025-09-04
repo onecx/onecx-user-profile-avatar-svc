@@ -166,7 +166,7 @@
                         <configuration>
                             <skipDocs>${skipDocs}</skipDocs>
                             <openApiFiles>
-                                <openApiFile>onecx-user-profile-avatar-v1-openapi.yaml</openApiFile>
+                                <openApiFile>onecx-user-profile-avatar-v1.yaml</openApiFile>
                             </openApiFiles>
                         </configuration>
                     </execution>
@@ -209,7 +209,7 @@
                             <goal>generate</goal>
                         </goals>
                         <configuration>
-                            <inputSpec>src/main/openapi/onecx-user-profile-avatar-internal-openapi.yaml</inputSpec>
+                            <inputSpec>src/main/openapi/onecx-user-profile-avatar-internal.yaml</inputSpec>
                             <apiPackage>gen.org.tkit.onecx.user.profile.avatar.rs.internal</apiPackage>
                             <modelPackage>gen.org.tkit.onecx.user.profile.avatar.rs.internal.model</modelPackage>
                             <modelNameSuffix>DTO</modelNameSuffix>
@@ -224,7 +224,7 @@
                             <goal>generate</goal>
                         </goals>
                         <configuration>
-                            <inputSpec>src/main/openapi/onecx-user-profile-avatar-v1-openapi.yaml</inputSpec>
+                            <inputSpec>src/main/openapi/onecx-user-profile-avatar-v1.yaml</inputSpec>
                             <apiPackage>gen.org.tkit.onecx.user.profile.avatar.rs.external.v1</apiPackage>
                             <modelPackage>gen.org.tkit.onecx.user.profile.avatar.rs.external.v1.model</modelPackage>
                             <modelNameSuffix>DTOV1</modelNameSuffix>
