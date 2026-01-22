@@ -1,2 +1,2 @@
 # onecx-user-profile-avatar-svc
-OneCx user-profile avatar service
+OneCX User Profile Avatar Service
